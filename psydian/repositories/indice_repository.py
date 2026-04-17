@@ -11,8 +11,8 @@ from psydian.models.orm import Base, NotaORM
 
 
 class indiceRepository:
-    def __init__(self):
-        pass
+    def __init__(self, vault_path: Path):
+        
     
     def _para_orm() :
         pass
