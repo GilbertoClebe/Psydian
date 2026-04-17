@@ -1,0 +1,22 @@
+[project]
+name = "psydian"
+version = "0.1.0"
+description = "Um segundo cérebro digital com IA nativa"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "loguru>=0.7.3",
+    "pydantic>=2.13.2",
+    "pytest>=9.0.3",
+    "python-frontmatter>=1.1.0",
+    "ruff>=0.15.11",
+    "sqlalchemy>=2.0.49",
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["psydian*"]

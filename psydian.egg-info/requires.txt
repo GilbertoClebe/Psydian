@@ -1,0 +1,6 @@
+loguru>=0.7.3
+pydantic>=2.13.2
+pytest>=9.0.3
+python-frontmatter>=1.1.0
+ruff>=0.15.11
+sqlalchemy>=2.0.49

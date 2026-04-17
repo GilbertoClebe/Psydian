@@ -1,0 +1,7 @@
+*.pyc
+*.pyo
+.pytest_cache/
+.ruff_cache/
+vault/
+*.db
+.env
