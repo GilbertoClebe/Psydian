@@ -37,6 +37,7 @@ def create_file(data: FileCreate, db: Session = Depends(get_db)) :
         #cria uma nova variavel para salvar o arquivo
         record = FileRecord(
             title = data.title,
+            content=data.content,
             path=filepath,
             tags=",".join(data.tags)
         )
@@ -46,51 +47,56 @@ def create_file(data: FileCreate, db: Session = Depends(get_db)) :
         db.refresh(record)
         record.tags = data.tags
         return record
-    except :
+    except Exception as e:
         db.rollback()
-        raise HTTPException.add_note("Falha ao criar o arquivo")
+        raise HTTPException(status_code=404, detail=str(e))
 #Concluida
-@router.get("/", response_model=FileResponse)
+@router.get("/{id}", response_model=FileResponse)
 def get_file_by_id(id: int, db: Session = Depends(get_db)) :
     try :
         file_by_id = db.get(FileRecord, id)
         return file_by_id
-    except :
+    except Exception as e:
         db.rollback()
-        raise HTTPException.add_note("Falha ao buscar por id")    
+        raise HTTPException(status_code=404, detail=str(e))    
 #Concluida
-@router.get("/", response_model=FileResponse)
+@router.get("/search", response_model=FileResponse)
 def get_by_files_title(title: str, db: Session = Depends(get_db)) :
     try :
-        query = select(FileResponse).where(FileResponse.title == title).scalar_one_or_none()
+        query = select(FileRecord).where(FileRecord.title == title).scalar_one_or_none()
         return db.execute(query)
         
-    except :
+    except Exception as e:
         db.rollback()
-        raise HTTPException.add_note("Falha ao buscar por filtros")
+        raise HTTPException(status_code=404, detail=str(e))
 
 @router.put("/", response_model=FileResponse)
-def update_file(id_get: int, title: Optional[str] = None, content: Optional[str] = None, db: Session = Depends(get_db)) :
+def update_file(id: int, title: Optional[str] = None, content: Optional[str] = None, db: Session = Depends(get_db)) :
     try :
-        file = db.get(FileResponse, id)
+        file = db.get(FileRecord, id)
         if file :
             file_updated = file
             file_updated.content = content
             file_updated.title = title
+            db.commit()
+            db.refresh(file)
             return file_updated
-    except :
+    except Exception as e:
         db.rollback()
-        raise HTTPException.add_note("Falha ao atualizar")
+        raise HTTPException(status_code=404, detail=str(e))
 
 @router.delete("/")
 def delete_file(id: int, db: Session = Depends(get_db)) :
     try :
-        file_to_del = db.get(FileResponse, id)
-        db.delete(file_to_del)
+        file = db.get(FileRecord, id)
+        if not file:
+            raise HTTPException(status_code=404, detail="Arquivo não encontrado")
+        Path(file.path).unlink(missing_ok=True)
+        db.delete(file)
         db.commit()
-        return "File deletada"
-    except :
+        return {"message": "Arquivo deletado"}
+    except Exception as e:
         db.rollback()
-        raise HTTPException.add_note("Falha ao ")
+        raise HTTPException(status_code=500, detail=str(e))
 
 
