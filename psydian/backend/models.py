@@ -3,7 +3,7 @@ from sqlalchemy import func, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 from datetime import datetime
 from typing import Optional
-class FileRecord(Base) :
+class FileModel(Base) :
     __tablename__ = "files"
     
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)

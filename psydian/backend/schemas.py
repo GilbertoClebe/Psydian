@@ -5,6 +5,7 @@ class FileCreate(BaseModel) :
     title: str
     content: str
     tags: list[str] = []
+    path: str
 class FileUpdate(BaseModel) :
     title: Optional[str] = None
     content: Optional[str] = None
