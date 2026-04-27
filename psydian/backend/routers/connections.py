@@ -53,4 +53,4 @@ def delete_connections(conn_id: int, db: Session = Depends(get_db)) :
     except SQLAlchemyError as e:
         db.rollback()
         logging.exception(f"Erro ao buscar conexão: {e}")
-        raise HTTPException(status_code=500, detail="Erro ao buscar a conexão no banco de dados: {e}")
+        raise HTTPException(status_code=500, detail="Erro ao buscar a conexão no banco de dados")
