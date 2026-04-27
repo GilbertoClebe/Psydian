@@ -23,12 +23,12 @@ class FileResponse(BaseModel) :
 class ConnectionCreate(BaseModel) :
     source_id: int
     target_id: int
-    label: Optional[str]
+    label: Optional[str] = None
     metadata_: Optional[Dict[str, Any]] = Field(default_factory=dict)
 class ConnectionOut(BaseModel) :
     id: int
     source_id: int
     target_id: int
-    label: Optional[str]
+    label: Optional[str] = None
     class Config:
         from_attributes = True
