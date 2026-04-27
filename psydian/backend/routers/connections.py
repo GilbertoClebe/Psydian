@@ -1,8 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
-from pydantic import BaseModel
-from typing import Optional
 from database import get_db
 from models import Connection
 from schemas import ConnectionCreate, ConnectionOut
