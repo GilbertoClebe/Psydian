@@ -20,7 +20,7 @@ class FileResponse(BaseModel) :
     updated_at: Optional[datetime] 
     model_config = {"from_attributes": True}
     
-    @field_validator
+    @field_validator("tags", mode="before")
     @classmethod
     def parse_tags(cls, v) :
         if isinstance(v, str) :
@@ -37,5 +37,5 @@ class ConnectionOut(BaseModel) :
     source_id: int
     target_id: int
     label: Optional[str] = None
-    class Config:
+    class ConfigDict:
         from_attributes = True
