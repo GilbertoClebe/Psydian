@@ -9,4 +9,8 @@ class Connection(Base) :
     source_id: Mapped[int] = mapped_column(ForeignKey("files.id"), nullable=False)
     target_id: Mapped[int] = mapped_column(ForeignKey("files.id"), nullable=False)
     label: Mapped[Optional[str]] = mapped_column(String(255))
-    metadata: Mapped[Dict[str, any]] = mapped_column("metadata", JSON, default=dict)
+    metadata_: Mapped[Dict[str, any]] = mapped_column("metadata", JSON, default=dict)
+    
+    @property
+    def __repr__() :
+        return 

@@ -1,6 +1,6 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Dict, Any
 class FileCreate(BaseModel) :
     title: str
     content: str
@@ -19,3 +19,16 @@ class FileResponse(BaseModel) :
     created_at: datetime
     updated_at: Optional[datetime] 
     model_config = {"from_attributes": True}
+    
+class ConnectionCreate(BaseModel) :
+    source_id: int
+    target_id: int
+    label: Optional[str]
+    metadata_: Optional[Dict[str, Any]] = Field(default_factory=dict)
+class ConnectionOut(BaseModel) :
+    id: int
+    source_id: int
+    target_id: int
+    label: Optional[str]
+    class Config:
+        from_attributes = True
