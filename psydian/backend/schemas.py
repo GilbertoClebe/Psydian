@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from datetime import datetime
 from typing import Optional, Dict, Any
 class FileCreate(BaseModel) :
@@ -19,6 +19,13 @@ class FileResponse(BaseModel) :
     created_at: datetime
     updated_at: Optional[datetime] 
     model_config = {"from_attributes": True}
+    
+    @field_validator
+    @classmethod
+    def parse_tags(cls, v) :
+        if isinstance(v, str) :
+            return [t for t in v.split(",") if t] 
+        return v or []
     
 class ConnectionCreate(BaseModel) :
     source_id: int

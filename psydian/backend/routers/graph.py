@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from database import get_db
 from graph_engine import build_graph
 
-router = APIRouter(prefix="graph", tags=["graph"])
+router = APIRouter(prefix="/graph", tags=["graph"])
 
 @router.get("/")
 def get_graph(db: Session = Depends(get_db)) :
@@ -13,7 +13,7 @@ def get_graph(db: Session = Depends(get_db)) :
     for node_id, data in G.nodes(data=True) :
         nodes.append({
             "data": {
-                id: str(node_id),
+                "id": str(node_id),
                 "label": data.get("title", f"Node {node_id}"),
                 "tags": data.get("tags", "")
             }
@@ -22,7 +22,7 @@ def get_graph(db: Session = Depends(get_db)) :
     edges = []
     for source, target, data in G.edges(data=True) :
         if data.get("label") :
-            mid_id = f"mid-{source}={target}"
+            mid_id = f"mid-{source}-{target}"
             nodes.append({
                 "data": {
                     "id": mid_id,
@@ -30,6 +30,7 @@ def get_graph(db: Session = Depends(get_db)) :
                     "type": "edge-node"
                 }
             })
+        
         edges.append({"data": {"source": str(source), "target": mid_id}})
         edges.append({"data": {"source": mid_id, "target": str(target)}})
         
@@ -42,6 +43,6 @@ def get_graph(db: Session = Depends(get_db)) :
             }
         })
         
-        return {"nodes": nodes, "edges": edges}
+    return {"nodes": nodes, "edges": edges}
     
     

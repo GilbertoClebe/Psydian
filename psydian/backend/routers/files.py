@@ -127,8 +127,8 @@ def update_file(id: int, file_new: FileUpdate, db: Session = Depends(get_db)) :
         try:
             updated_file = found_file
             if file_new.title:
-                new_title_lower = f"{file_new.title.lower().replace(' ', '_')}.md"
-                new_path = WORKSPACE_DIR / new_title_lower
+                #new_title_lower = f"{file_new.title.lower().replace(' ', '_')}.md"
+                #new_path = WORKSPACE_DIR / new_title_lower
                 if old_path.exists() and old_path != new_path:
                     if new_path.exists():
                         raise HTTPException(status_code=409, detail="Já existe um arquivo com esse novo título.")

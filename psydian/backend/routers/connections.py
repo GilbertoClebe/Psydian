@@ -31,7 +31,7 @@ def create_connection(conn: ConnectionCreate, db: Session = Depends(get_db)) :
 @router.get("/")
 def list_connections(db: Session = Depends(get_db)) :
     try :
-        return db.get(Connection).all()
+        return db.query(Connection).all()
     except SQLAlchemyError as e :
         db.rollback()
         logging.error(f"Erro ao listar conexões: {e}")

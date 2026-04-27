@@ -24,5 +24,5 @@ class Connection(Base) :
     metadata_: Mapped[Dict[str, any]] = mapped_column("metadata", JSON, default=dict)
     
     @property
-    def __repr__() :
-        return 
+    def __repr__(self) :
+        return f"<Connection {self.id}: {self.source_id} -> {self.target_id}>"
